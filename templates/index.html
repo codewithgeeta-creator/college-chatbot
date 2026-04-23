@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Chatbot for College Helpdesk</title>
+
+<style>
+body {
+    margin:0;
+    font-family: "Segoe UI", Arial;
+    background:#343541;
+    color:white;
+}
+
+.header {
+    padding:15px;
+    background:#202123;
+    text-align:center;
+    font-size:20px;
+    font-weight:bold;
+}
+
+#chatbox {
+    height:65vh;
+    overflow-y:auto;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+}
+
+.message { display:flex; margin:10px 0; }
+.user { justify-content:flex-end; }
+.bot { justify-content:flex-start; }
+
+.bubble {
+    max-width:65%;
+    padding:12px;
+    border-radius:12px;
+    line-height:1.6;
+    font-size:14px;
+    white-space:pre-wrap;
+}
+
+.user .bubble { background:#19c37d; color:black; }
+.bot .bubble { background:#444654; }
+
+#inputArea {
+    position:fixed;
+    bottom:60px;
+    width:100%;
+    background:#40414f;
+    padding:10px;
+    display:flex;
+    gap:5px;
+}
+
+input {
+    flex:1;
+    padding:10px;
+    border-radius:8px;
+    border:none;
+}
+
+button {
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    background:#19c37d;
+    cursor:pointer;
+}
+
+#keyPoints {
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background:#202123;
+    padding:10px;
+    text-align:center;
+}
+
+#keyPoints button {
+    margin:5px;
+    background:#444654;
+}
+
+.name {
+    color:#19c37d;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#popup {
+    display:none;
+    position:fixed;
+    top:0;
+    width:100%;
+    height:100%;
+    background:black;
+}
+#popup iframe { width:100%; height:90%; }
+#popup button { width:100%; background:red; color:white; }
+
+</style>
+</head>
+
+<body>
+
+<div class="header">🤖 AI Chatbot for College Helpdesk</div>
+
+<div id="chatbox"></div>
+
+<div id="inputArea">
+<input id="text" placeholder="Ask me anything..." onkeypress="handleKey(event)">
+<button onclick="sendMessage()">➤</button>
+<button onclick="startVoice()">🎤</button>
+<button onclick="stopVoice()">⛔</button>
+<button onclick="speakText()">🔊</button>
+<button onclick="clearChat()">🗑️</button>
+</div>
+
+<div id="keyPoints">
+<button onclick="quickSend('courses')">Courses</button>
+<button onclick="quickSend('placement')">Placement</button>
+<button onclick="quickSend('fees')">Fees</button>
+<button onclick="quickSend('admission')">Admission</button>
+</div>
+
+<div id="popup">
+<iframe id="frame"></iframe>
+<button onclick="closePopup()">Close</button>
+</div>
+
+<script>
+
+/* ✅ WELCOME */
+window.onload = function(){
+    addMessage("👋 Welcome to Akshaya Institute Chatbot!\n\nAsk me anything about courses, placements, fees, or admissions.", "bot");
+}
+
+/* STORE LAST RESPONSE */
+let lastResponse = "";
+
+/* MESSAGE */
+function addMessage(message, sender) {
+    let chatbox = document.getElementById("chatbox");
+
+    let msg = document.createElement("div");
+    msg.classList.add("message", sender);
+
+    let bubble = document.createElement("div");
+    bubble.classList.add("bubble");
+
+    msg.appendChild(bubble);
+    chatbox.appendChild(msg);
+
+    typeEffect(bubble, message);
+    chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+/* TYPE EFFECT + CLICKABLE ECE */
+function typeEffect(el, text) {
+
+    const ece = [
+        ["Abhilash D R","abhilash.pdf"],
+        ["Sandeep Ashok","sandeep.pdf"],
+        ["Sachin Kumar B","sachin.pdf"],
+        ["Geeta Jagadish Malali","geeta.pdf"],
+        ["Vamshi P R","vamshi.pdf"],
+        ["Bharathi H V","Bharathi.pdf"]
+    ];
+
+    ece.forEach(i=>{
+        text = text.replaceAll(i[0],
+        `<span class='name' onclick="openOffer('${i[1]}')">${i[0]}</span>`);
+    });
+
+    el.innerHTML="";
+    let i=0;
+
+    function typing(){
+        if(i<text.length){
+            el.innerHTML=text.substring(0,i+1);
+            i++;
+            setTimeout(typing,8);
+        }
+    }
+    typing();
+}
+
+/* SEND */
+function sendMessage(){
+    let input=document.getElementById("text");
+    let msg=input.value;
+    if(!msg) return;
+
+    addMessage(msg,"user");
+    input.value="";
+
+    fetch("/get",{
+        method:"POST",
+        body:"msg="+msg,
+        headers:{"Content-Type":"application/x-www-form-urlencoded"}
+    })
+    .then(res=>res.text())
+    .then(data=>{
+        lastResponse = data;
+        showCoursesOneByOne(data);
+    });
+}
+
+/* COURSES ONE BY ONE */
+function showCoursesOneByOne(text){
+
+    if(!text.includes("Courses")){
+        addMessage(text,"bot");
+        return;
+    }
+
+    let lines = text.split("\n");
+    let i=0;
+
+    function next(){
+        if(i<lines.length){
+            addMessage(lines[i],"bot");
+            i++;
+            setTimeout(next,400);
+        }
+    }
+    next();
+}
+
+/* QUICK */
+function quickSend(text){
+    document.getElementById("text").value=text;
+    sendMessage();
+}
+
+/* CLEAR */
+function clearChat(){
+    document.getElementById("chatbox").innerHTML="";
+}
+
+/* ENTER */
+function handleKey(e){
+    if(e.key==="Enter") sendMessage();
+}
+
+/* 🎤 VOICE INPUT */
+let recognition;
+
+function startVoice(){
+    if (!('webkitSpeechRecognition' in window)) {
+        alert("Use Google Chrome");
+        return;
+    }
+
+    recognition = new webkitSpeechRecognition();
+    recognition.lang="en-IN";
+    recognition.start();
+
+    recognition.onresult = function(e){
+        document.getElementById("text").value =
+            e.results[0][0].transcript;
+        sendMessage();
+    };
+}
+
+/* ⛔ STOP */
+function stopVoice(){
+    if(recognition){
+        recognition.stop();
+    }
+    window.speechSynthesis.cancel();
+}
+
+/* 🔊 SPEAK ONLY WHEN CLICKED */
+function speakText(){
+
+    if(!lastResponse) return;
+
+    window.speechSynthesis.cancel();
+
+    let speech = new SpeechSynthesisUtterance();
+    speech.text = lastResponse;
+    speech.lang = "en-IN";
+
+    window.speechSynthesis.speak(speech);
+}
+
+/* OFFER POPUP */
+function openOffer(file){
+    document.getElementById("popup").style.display="block";
+    document.getElementById("frame").src="/static/offers/"+file;
+}
+
+function closePopup(){
+    document.getElementById("popup").style.display="none";
+}
+
+</script>
+
+</body>
+</html>
