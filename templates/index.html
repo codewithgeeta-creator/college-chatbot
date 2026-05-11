@@ -167,7 +167,38 @@ function typeEffect(el, text) {
         ["Vamshi P R","vamshi.pdf"],
         ["Bharathi H V","Bharathi.pdf"]
     ];
+<script>
+const translations = {
+    english: {
+        placement: "Placed Students",
+        offer: "View Offer Letter",
+        company: "Company",
+        package: "Package"
+    },
 
+    kannada: {
+        placement: "ನೇಮಕಗೊಂಡ ವಿದ್ಯಾರ್ಥಿಗಳು",
+        offer: "ಆಫರ್ ಲೆಟರ್ ನೋಡಿ",
+        company: "ಕಂಪನಿ",
+        package: "ಪ್ಯಾಕೇಜ್"
+    },
+
+    hindi: {
+        placement: "प्लेस्ड छात्र",
+        offer: "ऑफर लेटर देखें",
+        company: "कंपनी",
+        package: "पैकेज"
+    },
+
+    telugu: {
+        placement: "ఉద్యోగం పొందిన విద్యార్థులు",
+        offer: "ఆఫర్ లెటర్ చూడండి",
+        company: "కంపెనీ",
+        package: "ప్యాకేజ్"
+    }
+};
+</script>
+    
     ece.forEach(i=>{
         text = text.replaceAll(i[0],
         `<span class='name' onclick="openOffer('${i[1]}')">${i[0]}</span>`);
