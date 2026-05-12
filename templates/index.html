@@ -12,7 +12,6 @@ body{
     color:white;
 }
 
-/* HEADER */
 .header{
     background:#202123;
     padding:18px;
@@ -22,7 +21,6 @@ body{
     letter-spacing:1px;
 }
 
-/* LANGUAGE BAR */
 .languageBar{
     background:#2d2f39;
     text-align:center;
@@ -39,7 +37,6 @@ body{
     font-weight:bold;
 }
 
-/* CHATBOX */
 #chatbox{
     height:62vh;
     overflow-y:auto;
@@ -48,7 +45,6 @@ body{
     flex-direction:column;
 }
 
-/* MESSAGE */
 .message{
     display:flex;
     margin:10px 0;
@@ -80,7 +76,6 @@ body{
     background:#444654;
 }
 
-/* INPUT AREA */
 #inputArea{
     position:fixed;
     bottom:65px;
@@ -106,7 +101,6 @@ button{
     cursor:pointer;
 }
 
-/* QUICK BUTTONS */
 #keyPoints{
     position:fixed;
     bottom:0;
@@ -122,14 +116,12 @@ button{
     color:white;
 }
 
-/* CLICKABLE NAMES */
 .name{
     color:#19c37d;
     font-weight:bold;
     cursor:pointer;
 }
 
-/* POPUP */
 #popup{
     display:none;
     position:fixed;
@@ -161,31 +153,17 @@ button{
 🤖 AI Chatbot for College Helpdesk
 </div>
 
-<!-- LANGUAGE BUTTONS -->
 <div class="languageBar">
 
-<button onclick="setLanguage('english')">
-English
-</button>
-
-<button onclick="setLanguage('kannada')">
-ಕನ್ನಡ
-</button>
-
-<button onclick="setLanguage('hindi')">
-हिंदी
-</button>
-
-<button onclick="setLanguage('telugu')">
-తెలుగు
-</button>
+<button onclick="setLanguage('english')">English</button>
+<button onclick="setLanguage('kannada')">ಕನ್ನಡ</button>
+<button onclick="setLanguage('hindi')">हिंदी</button>
+<button onclick="setLanguage('telugu')">తెలుగు</button>
 
 </div>
 
-<!-- CHATBOX -->
 <div id="chatbox"></div>
 
-<!-- INPUT AREA -->
 <div id="inputArea">
 
 <input
@@ -195,62 +173,36 @@ onkeypress="handleKey(event)"
 >
 
 <button onclick="sendMessage()">➤</button>
-
 <button onclick="startVoice()">🎤</button>
-
 <button onclick="stopVoice()">⛔</button>
-
 <button onclick="speakText()">🔊</button>
-
 <button onclick="clearChat()">🗑️</button>
 
 </div>
 
-<!-- QUICK BUTTONS -->
 <div id="keyPoints">
 
-<button onclick="quickSend('courses')">
-Courses
-</button>
-
-<button onclick="quickSend('placement')">
-Placement
-</button>
-
-<button onclick="quickSend('fees')">
-Fees
-</button>
-
-<button onclick="quickSend('admission')">
-Admission
-</button>
-
-<button onclick="quickSend('facilities')">
-Facilities
-</button>
+<button onclick="quickSend('courses')">Courses</button>
+<button onclick="quickSend('placement')">Placement</button>
+<button onclick="quickSend('fees')">Fees</button>
+<button onclick="quickSend('admission')">Admission</button>
+<button onclick="quickSend('facilities')">Facilities</button>
 
 </div>
 
-<!-- PDF POPUP -->
 <div id="popup">
-
 <iframe id="frame"></iframe>
-
-<button onclick="closePopup()">
-Close
-</button>
-
+<div style="display:flex; gap:10px; padding:10px; background:black;">
+<button onclick="downloadOffer()" style="flex:1; background:#19c37d; color:black;">Download Offer Letter</button>
+<button onclick="closePopup()" style="flex:1; background:red; color:white;">Close</button>
+</div>
 </div>
 
 <script>
 
-/* CURRENT LANGUAGE */
 let currentLanguage = "english";
-
-/* LAST RESPONSE */
 let lastResponse = "";
 
-/* TRANSLATIONS */
 const translations = {
 
 english: {
@@ -271,16 +223,17 @@ facilities:
 "Our college provides excellent facilities including smart classrooms, laboratories, library, WiFi campus, transportation, hostel, sports facilities, and placement training programs.",
 
 placement:
-"📊 Placement Overview:\n\n💰 Highest Package: 12 LPA\n💰 Lowest Package: 2.5 LPA\n\n📌 Electronics & Communication Engineering (ECE):\n• Planet Company (9–12 LPA): Rakshak\n• Ocean Link (5.75 LPA): Sachin Kumar B, Abhilash D R, Sandeep Ashok\n• Inner Circle (5.4 LPA): Geeta Jagadish Malali, Sushma H M\n• NxtSync(5.4LPA): Vamshi P R\n• Basant Technologies: Bharathi H V\n\n📌 Computer Science Engineering (CSE):\n• Cloud Built: Sahana T R, Sneha B Mulangi, Akshatha Patil, Dileep Kumar M, Vathsala D H, Kavana R, Kushal Gowda R\n• Basant Technologies: Akash S Z, Anjan Shetty M, N Ajjan Gowda, Srinivas K V\n• Inner Circle & Archelos: Multiple students placed\n\n📌 Information Science Engineering (ISE):\n• Cloud Built: Darshan G K, Jignu Unnisa, Mamatha M N, Pallavi N\n• Basant Technologies: Pruthveesh R, Pavan Kumar M R, Sandhya K M"
+"📊 Placement Overview:\n\n💰 Highest Package: 12 LPA\n💰 Lowest Package: 2.5 LPA\n\n📌 Electronics & Communication Engineering (ECE):\n• Planet Company (9–12 LPA): Rakshak\n• Ocean Link (5.75 LPA): Sachin Kumar B, Abhilash D R, Sandeep Ashok\n• Inner Circle (5.4 LPA): Geeta Jagadish Malali, Sushma H M\n• NxtSync (5.4 LPA): Vamshi P R\n• Basant Technologies: Bharathi H V\n\n📌 Computer Science Engineering (CSE):\n• Cloud Built: Sahana T R, Sneha B Mulangi, Akshatha Patil, Dileep Kumar M, Vathsala D H, Kavana R, Kushal Gowda R\n• Basant Technologies: Akash S Z, Anjan Shetty M, N Ajjan Gowda, Srinivas K V\n• Inner Circle & Archelos: Multiple students placed\n\n📌 Information Science Engineering (ISE):\n• Cloud Built: Darshan G K, Jignu Unnisa, Mamatha M N, Pallavi N\n• Basant Technologies: Pruthveesh R, Pavan Kumar M R, Sandhya K M"
+
 },
 
 kannada: {
 
 welcome:
-"👋 ಅಕ್ಷಯ ಇನ್‌ಸ್ಟಿಟ್ಯೂಟ್ ಚಾಟ್‌ಬಾಟ್‌ಗೆ ಸ್ವಾಗತ.\n\nಕೋರ್ಸ್, ಪ್ಲೇಸ್‌ಮೆಂಟ್, ಶುಲ್ಕ, ಪ್ರವೇಶ ಅಥವಾ ಸೌಲಭ್ಯಗಳ ಬಗ್ಗೆ ಕೇಳಿ.",
+"👋 ಅಕ್ಷಯ ಇನ್‌ಸ್ಟಿಟ್ಯೂಟ್ ಚಾಟ್‌ಬಾಟ್‌ಗೆ ಸ್ವಾಗತ.",
 
 courses:
-"ನಮ್ಮ ಕಾಲೇಜಿನಲ್ಲಿ ಇಲೆಕ್ಟ್ರಾನಿಕ್ಸ್ ಮತ್ತು ಕಮ್ಯುನಿಕೇಶನ್, ಕಂಪ್ಯೂಟರ್ ಸೈನ್ಸ್, ಮೆಕ್ಯಾನಿಕಲ್, ಸಿವಿಲ್ ಮತ್ತು AI & ML ಸೇರಿದಂತೆ ಹಲವು ಎಂಜಿನಿಯರಿಂಗ್ ಕೋರ್ಸ್‌ಗಳು ಲಭ್ಯವಿವೆ.",
+"ನಮ್ಮ ಕಾಲೇಜಿನಲ್ಲಿ ವಿವಿಧ ಎಂಜಿನಿಯರಿಂಗ್ ಕೋರ್ಸ್‌ಗಳು ಲಭ್ಯವಿವೆ.",
 
 fees:
 "ಶುಲ್ಕದ ವಿವರಗಳು ಕೋರ್ಸ್ ಮತ್ತು ಪ್ರವೇಶ ವರ್ಗದ ಮೇಲೆ ಅವಲಂಬಿತವಾಗಿರುತ್ತವೆ.",
@@ -289,19 +242,20 @@ admission:
 "ಪ್ರವೇಶ ಪ್ರಕ್ರಿಯೆ KCET, COMEDK ಮತ್ತು ಮ್ಯಾನೇಜ್‌ಮೆಂಟ್ ಕೋಟಾದ ಮೂಲಕ ನಡೆಯುತ್ತದೆ.",
 
 facilities:
-"ನಮ್ಮ ಕಾಲೇಜಿನಲ್ಲಿ ಸ್ಮಾರ್ಟ್ ಕ್ಲಾಸ್‌ರೂಮ್‌, ಪ್ರಯೋಗಾಲಯಗಳು, ಗ್ರಂಥಾಲಯ, ವೈಫೈ ಕ್ಯಾಂಪಸ್, ಸಾರಿಗೆ, ಹಾಸ್ಟೆಲ್ ಮತ್ತು ಕ್ರೀಡಾ ಸೌಲಭ್ಯಗಳಿವೆ.",
+"ನಮ್ಮ ಕಾಲೇಜಿನಲ್ಲಿ ಸ್ಮಾರ್ಟ್ ಕ್ಲಾಸ್‌ರೂಮ್‌, ಪ್ರಯೋಗಾಲಯಗಳು, ಗ್ರಂಥಾಲಯ, ವೈಫೈ ಕ್ಯಾಂಪಸ್, ಸಾರಿಗೆ ಮತ್ತು ಹಾಸ್ಟೆಲ್ ಸೌಲಭ್ಯಗಳಿವೆ.",
 
 placement:
-"📊 ಪ್ಲೇಸ್‌ಮೆಂಟ್ ವಿವರಗಳು:\n\n💰 ಗರಿಷ್ಠ ವೇತನ: 12 LPA\n💰 ಕನಿಷ್ಠ ವೇತನ: 2.5 LPA\n\n📌 ಇಲೆಕ್ಟ್ರಾನಿಕ್ಸ್ ಮತ್ತು ಕಮ್ಯುನಿಕೇಶನ್ (ECE):\n• Planet Company(12LPA): Rakshak\n• Ocean Link(5.6LPA): Sachin Kumar B, Abhilash D R, Sandeep Ashok\n• Inner Circle(5.4LPA): Sushma H M\n• NxtSync(5.4LPA) Vamshi\n• Cloudbuilt Technologies(4.8LPA):Geeta Jagadish Malali \n• Besanth Technologies:Bharathi H V,Rakshak\n Computer Science Engineering (CSE):\n• Cloud Built: Sahana T R, Sneha B Mulangi, Akshatha Patil, Dileep Kumar M, Vathsala D H, Kavana R, Kushal Gowda R\n• Basant Technologies: Akash S Z, Anjan Shetty M, N Ajjan Gowda, Srinivas K V\n• Inner Circle & Archelos: Multiple students placed\n\n Information Science Engineering (ISE):\n• Cloud Built: Darshan G K, Jignu Unnisa, Mamatha M N, Pallavi N\n• Basant Technologies: Pruthveesh R, Pavan Kumar M R, Sandhya K M",
-"
-}
+"📊 ಪ್ಲೇಸ್‌ಮೆಂಟ್ ವಿವರಗಳು:\n\n💰 ಗರಿಷ್ಠ ವೇತನ: 12 LPA\n💰 ಕನಿಷ್ಠ ವೇತನ: 2.5 LPA\n\n📌 ECE ವಿಭಾಗ:\n• Planet Company: Rakshak\n• Ocean Link: Sachin Kumar B, Abhilash D R, Sandeep Ashok\n• Inner Circle: Geeta Jagadish Malali, Sushma H M"
+
+},
+
 hindi: {
 
 welcome:
 "👋 अक्षय इंस्टिट्यूट चैटबॉट में आपका स्वागत है।",
 
 courses:
-"हमारे कॉलेज में कई इंजीनियरिंग कोर्स उपलब्ध हैं।",
+"हमारे कॉलेज में विभिन्न इंजीनियरिंग कोर्स उपलब्ध हैं।",
 
 fees:
 "फीस संरचना कोर्स और प्रवेश श्रेणी पर निर्भर करती है।",
@@ -310,12 +264,14 @@ admission:
 "प्रवेश KCET, COMEDK और मैनेजमेंट कोटा के माध्यम से किया जाता है।",
 
 facilities:
-"हमारे कॉलेज में स्मार्ट क्लासरूम, प्रयोगशालाएं, पुस्तकालय, वाईफाई कैंपस, हॉस्टल और खेल सुविधाएं उपलब्ध हैं।",
+"हमारे कॉलेज में स्मार्ट क्लासरूम, प्रयोगशालाएं, पुस्तकालय, हॉस्टल और खेल सुविधाएं उपलब्ध हैं।",
 
 placement:
-"📊 प्लेसमेंट विवरण:\n\n💰 अधिकतम पैकेज: 12 LPA\n💰 न्यूनतम पैकेज: 2.5 LPA\n\n📌 ECE विभाग:\n• Planet Company(12LPA): Rakshak\n• Ocean Link(5.6LPA): Sachin Kumar B, Abhilash D R, Sandeep Ashok\n• Inner Circle(5.4LPA): Sushma H M\n• NxtSync(5.4LPA) Vamshi\n• Cloudbuilt Technologies(4.8LPA):Geeta Jagadish Malali \n• Besanth Technologies:Bharathi H V,Rakshak\n Computer Science Engineering (CSE):\n• Cloud Built: Sahana T R, Sneha B Mulangi, Akshatha Patil, Dileep Kumar M, Vathsala D H, Kavana R, Kushal Gowda R\n• Basant Technologies: Akash S Z, Anjan Shetty M, N Ajjan Gowda, Srinivas K V\n• Inner Circle & Archelos: Multiple students placed\n\n Information Science Engineering (ISE):\n• Cloud Built: Darshan G K, Jignu Unnisa, Mamatha M N, Pallavi N\n• Basant Technologies: Pruthveesh R, Pavan Kumar M R, Sandhya K M",
-"
-}
+"📊 प्लेसमेंट विवरण:\n\n💰 अधिकतम पैकेज: 12 LPA\n💰 न्यूनतम पैकेज: 2.5 LPA\n\n📌 ECE विभाग:\n• Planet Company: Rakshak\n• Ocean Link: Sachin Kumar B, Abhilash D R, Sandeep Ashok\n• Inner Circle: Geeta Jagadish Malali, Sushma H M"
+
+},
+
+telugu: {
 
 welcome:
 "👋 అక్షయ ఇన్స్టిట్యూట్ చాట్‌బాట్‌కు స్వాగతం.",
@@ -330,16 +286,15 @@ admission:
 "అడ్మిషన్లు KCET, COMEDK మరియు మేనేజ్‌మెంట్ కోటా ద్వారా జరుగుతాయి.",
 
 facilities:
-"మా కళాశాలలో స్మార్ట్ క్లాస్‌రూమ్స్, ల్యాబ్స్, లైబ్రరీ, వైఫై క్యాంపస్, హాస్టల్ మరియు క్రీడా సౌకర్యాలు ఉన్నాయి.",
+"మా కళాశాలలో స్మార్ట్ క్లాస్‌రూమ్స్, ల్యాబ్స్, లైబ్రరీ, హాస్టల్ మరియు క్రీడా సౌకర్యాలు ఉన్నాయి.",
 
 placement:
-"📊 ప్లేస్‌మెంట్ వివరాలు:\n\n💰 అత్యధిక ప్యాకేజ్: 12 LPA\n💰 కనిష్ట ప్యాకేజ్: 2.5 LPA\n\n ECE విభాగం:\n• Planet Company(12LPA): Rakshak\n• Ocean Link(5.6LPA): Sachin Kumar B, Abhilash D R, Sandeep Ashok\n• Inner Circle(5.4LPA): Sushma H M\n• NxtSync(5.4LPA) Vamshi\n• Cloudbuilt Technologies(4.8LPA):Geeta Jagadish Malali \n• Besanth Technologies:Bharathi H V,Rakshak\n Computer Science Engineering (CSE):\n• Cloud Built: Sahana T R, Sneha B Mulangi, Akshatha Patil, Dileep Kumar M, Vathsala D H, Kavana R, Kushal Gowda R\n• Basant Technologies: Akash S Z, Anjan Shetty M, N Ajjan Gowda, Srinivas K V\n• Inner Circle & Archelos: Multiple students placed\n\n Information Science Engineering (ISE):\n• Cloud Built: Darshan G K, Jignu Unnisa, Mamatha M N, Pallavi N\n• Basant Technologies: Pruthveesh R, Pavan Kumar M R, Sandhya K M",
-"
+"📊 ప్లేస్‌మెంట్ వివరాలు:\n\n💰 అత్యధిక ప్యాకేజ్: 12 LPA\n💰 కనిష్ట ప్యాకేజ్: 2.5 LPA\n\n📌 ECE విభాగం:\n• Planet Company: Rakshak\n• Ocean Link: Sachin Kumar B, Abhilash D R, Sandeep Ashok\n• Inner Circle: Geeta Jagadish Malali, Sushma H M"
+
 }
 
 };
 
-/* WELCOME */
 window.onload = function(){
 
 addMessage(
@@ -349,7 +304,6 @@ translations[currentLanguage].welcome,
 
 }
 
-/* CHANGE LANGUAGE */
 function setLanguage(lang){
 
 currentLanguage = lang;
@@ -361,41 +315,27 @@ translations[lang].welcome,
 
 }
 
-/* ADD MESSAGE */
 function addMessage(message, sender){
 
-let chatbox =
-document.getElementById("chatbox");
+let chatbox = document.getElementById("chatbox");
 
-let msg =
-document.createElement("div");
+let msg = document.createElement("div");
+msg.classList.add("message", sender);
 
-msg.classList.add(
-"message",
-sender
-);
-
-let bubble =
-document.createElement("div");
-
+let bubble = document.createElement("div");
 bubble.classList.add("bubble");
 
-bubble.innerHTML =
-makeClickable(message);
+bubble.innerHTML = makeClickable(message);
 
 msg.appendChild(bubble);
-
 chatbox.appendChild(msg);
 
-chatbox.scrollTop =
-chatbox.scrollHeight;
+chatbox.scrollTop = chatbox.scrollHeight;
 }
 
-/* CLICKABLE OFFER LETTERS */
 function makeClickable(text){
 
 const students = [
-
 ["Rakshak","rakshak.pdf"],
 ["Sachin Kumar B","sachin.pdf"],
 ["Abhilash D R","abhilash.pdf"],
@@ -404,7 +344,6 @@ const students = [
 ["Sushma H M","Sushma H M.pdf"],
 ["Vamshi P R","vamshi.pdf"],
 ["Bharathi H V","Bharathi.pdf"]
-
 ];
 
 students.forEach(s=>{
@@ -413,10 +352,7 @@ text = text.replaceAll(
 
 s[0],
 
-`<span class='name'
-onclick="openOffer('${s[1]}')">
-${s[0]}
-</span>`
+`<span class='name' onclick="openOffer('${s[1]}')">${s[0]}</span>`
 
 );
 
@@ -425,7 +361,6 @@ ${s[0]}
 return text;
 }
 
-/* BOT RESPONSE */
 function generateReply(msg){
 
 msg = msg.toLowerCase();
@@ -448,12 +383,9 @@ return translations[currentLanguage].facilities;
 return "Please ask queries related to college information.";
 }
 
-/* SEND MESSAGE */
 function sendMessage(){
 
-let input =
-document.getElementById("text");
-
+let input = document.getElementById("text");
 let msg = input.value;
 
 if(!msg) return;
@@ -462,114 +394,92 @@ addMessage(msg,"user");
 
 input.value = "";
 
-let response =
-generateReply(msg);
+let response = generateReply(msg);
 
 lastResponse = response;
 
 addMessage(response,"bot");
 }
 
-/* QUICK BUTTON */
 function quickSend(text){
 
-document.getElementById("text").value =
-text;
-
+document.getElementById("text").value = text;
 sendMessage();
 }
 
-/* ENTER KEY */
 function handleKey(e){
-
-if(e.key==="Enter")
-sendMessage();
-
+if(e.key==="Enter") sendMessage();
 }
 
-/* CLEAR CHAT */
 function clearChat(){
-
-document.getElementById("chatbox")
-.innerHTML="";
-
+document.getElementById("chatbox").innerHTML="";
 }
 
-/* VOICE INPUT */
 let recognition;
 
 function startVoice(){
 
-if(!('webkitSpeechRecognition'
-in window)){
-
+if (!("webkitSpeechRecognition" in window)) {
 alert("Use Google Chrome");
 return;
 }
 
-recognition =
-new webkitSpeechRecognition();
-
+recognition = new webkitSpeechRecognition();
 recognition.lang="en-IN";
-
 recognition.start();
 
-recognition.onresult =
-function(e){
+recognition.onresult = function(e){
 
-document.getElementById("text")
-.value =
+document.getElementById("text").value =
 e.results[0][0].transcript;
 
 sendMessage();
 };
 }
 
-/* STOP VOICE */
 function stopVoice(){
 
-if(recognition)
+if(recognition){
 recognition.stop();
-
-window.speechSynthesis.cancel();
-
 }
 
-/* SPEAK RESPONSE */
+window.speechSynthesis.cancel();
+}
+
 function speakText(){
 
 if(!lastResponse) return;
 
 window.speechSynthesis.cancel();
 
-let speech =
-new SpeechSynthesisUtterance();
-
+let speech = new SpeechSynthesisUtterance();
 speech.text = lastResponse;
-
 speech.lang = "en-IN";
 
 window.speechSynthesis.speak(speech);
-
 }
 
-/* OPEN OFFER LETTER */
 function openOffer(file){
 
-document.getElementById("popup")
-.style.display="block";
+document.getElementById("popup").style.display="block";
 
-document.getElementById("frame")
-.src="/static/offers/"+file;
-
+document.getElementById("frame").src="/static/offers/"+file;
 }
 
-/* CLOSE POPUP */
 function closePopup(){
+document.getElementById("popup").style.display="none";
+}
 
-document.getElementById("popup")
-.style.display="none";
+function downloadOffer(){
 
+let file = document.getElementById("frame").src;
+
+let a = document.createElement("a");
+a.href = file;
+a.download = "OfferLetter.pdf";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
 }
 
 </script>
