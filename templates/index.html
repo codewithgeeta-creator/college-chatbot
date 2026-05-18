@@ -375,22 +375,65 @@ function generateReply(msg){
 
 msg = msg.toLowerCase();
 
-if(msg.includes("course"))
+/* ---------- COURSES ---------- */
+
+if(
+msg.includes("course") ||
+msg.includes("courses") ||
+msg.includes("ಕೋರ್ಸ್") ||
+msg.includes("ಪಠ್ಯ") ||
+msg.includes("कोर्स") ||
+msg.includes("कورس") ||
+msg.includes("కోర్సు")
+)
 return translations[currentLanguage].courses;
 
-if(msg.includes("fee"))
+/* ---------- FEES ---------- */
+
+if(
+msg.includes("fee") ||
+msg.includes("fees") ||
+msg.includes("ಶುಲ್ಕ") ||
+msg.includes("फीस") ||
+msg.includes("ఫీజు")
+)
 return translations[currentLanguage].fees;
 
-if(msg.includes("admission"))
+/* ---------- ADMISSION ---------- */
+
+if(
+msg.includes("admission") ||
+msg.includes("admissions") ||
+msg.includes("ಪ್ರವೇಶ") ||
+msg.includes("एडमिशन") ||
+msg.includes("అడ్మిషన్")
+)
 return translations[currentLanguage].admission;
 
-if(msg.includes("placement"))
+/* ---------- PLACEMENT ---------- */
+
+if(
+msg.includes("placement") ||
+msg.includes("placements") ||
+msg.includes("ಪ್ಲೇಸ್") ||
+msg.includes("प्लेसमेंट") ||
+msg.includes("ప్లేస్మెంట్")
+)
 return translations[currentLanguage].placement;
 
-if(msg.includes("facilities"))
+/* ---------- FACILITIES ---------- */
+
+if(
+msg.includes("facilities") ||
+msg.includes("facility") ||
+msg.includes("ಸೌಲಭ್ಯ") ||
+msg.includes("सुविधा") ||
+msg.includes("సౌకర్య")
+)
 return translations[currentLanguage].facilities;
 
 return "Please ask queries related to college information.";
+
 }
 
 function sendMessage(){
